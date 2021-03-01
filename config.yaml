@@ -1,0 +1,7 @@
+addr: :80
+
+log: debug
+
+db:
+  url: postgres://postgres:test@localhost:6060/users?sslmode=disable
+  migrate: up
