@@ -6,6 +6,7 @@ import (
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
+	"os"
 )
 
 type Config interface {
@@ -39,6 +40,9 @@ func New(path string) Config {
 		panic(errors.New(fmt.Sprintf("failed to unmarshal config: %s", path)))
 	}
 
+	if port := os.Getenv("PORT"); port != "" {
+		cfg.Addr = ":" + port
+	}
 	cfg.Logger = NewLogger(cfg.Log)
 	cfg.Databaser = NewDatabaser(cfg.Database.URL, cfg.Database.Method, cfg.Logger.Logging())
 
