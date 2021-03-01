@@ -3,7 +3,7 @@
 **REQUESTS:** <br>
 Base path: https://logo-user-management.herokuapp.com
 
-* GET /logo/users/<username>/auth <br>
+* GET /logo/users/\<username>/auth <br>
   Request:
 
 ```json 
@@ -22,7 +22,8 @@ Response:
     "username": "test123",
     "name": "test",
     "surname": "test",
-    "email": "example@gmail.com"
+    "email": "example@gmail.com",
+    "image_url": "some url"
   }
 }
 ```
@@ -37,7 +38,8 @@ Response:
     "name": "test",
     "surname": "test",
     "email": "example@gmail.com",
-    "password": "test1234"
+    "password": "test1234",
+    "image_url": "some url"
   } 
 }
 ```
@@ -50,12 +52,14 @@ Response:
     "username": "test123",
     "name": "test",
     "surname": "test",
-    "email": "example@gmail.com"
+    "email": "example@gmail.com",
+    "image_url": "some url"
   }
 }
 ```
 -------------------------------------------------------------------------------
-* PATCH /logo/users/<username> <br>
+*Every field is optional here:
+* PATCH /logo/users/\<username> <br>
   Request:
 
 ```json 
@@ -65,7 +69,8 @@ Response:
     "name": "test",
     "surname": "test",
     "email": "example@gmail.com",
-    "password": "test1234"
+    "password": "test1234",
+    "image_url": "some url"
   } 
 }
 ```
@@ -78,22 +83,19 @@ Response:
     "username": "test123",
     "name": "test",
     "surname": "test",
-    "email": "example@gmail.com"
+    "email": "example@gmail.com",
+    "image_url": "some url"
   }
 }
 ```
 
 -------------------------------------------------------------------------------
-* DELETE /logo/users/<username> <br>
+* DELETE /logo/users/\<username> <br>
   Request:
 
 ```json 
 {
   "data": {
-    "username": "test123",
-    "name": "test",
-    "surname": "test",
-    "email": "example@gmail.com",
     "password": "test1234"
   } 
 }

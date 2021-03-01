@@ -43,5 +43,5 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	render.Respond(w, http.StatusOK, render.Message(user.ToMap()))
+	render.Respond(w, http.StatusOK, render.Message(user.ToReturn()))
 }

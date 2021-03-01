@@ -7,6 +7,7 @@ import (
 	"github.com/logo-user-management/app/ctx"
 	"github.com/logo-user-management/app/data"
 	"github.com/logo-user-management/app/render"
+	"github.com/logo-user-management/app/utils"
 	"github.com/logo-user-management/app/web/requests"
 	"net/http"
 )
@@ -38,6 +39,8 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	oldUsername := user.Username
+
 	user, err = updateUser(user, &request.Data)
 	if err != nil {
 		log.WithError(err).Debug("user has wrong update data")
@@ -45,17 +48,28 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = ctx.Users(r).UpdateUser(*user)
+	if user.Password == request.Data.Password {
+		user.Password, err = utils.HashAndSalt(user.Password)
+		if err != nil {
+			log.WithError(err).Error("failed to hash user password")
+			render.Respond(w, http.StatusInternalServerError, render.Message("something bad happened hashing user password"))
+			return
+		}
+	}
+
+	err = ctx.Users(r).UpdateUser(oldUsername, *user)
 	if err != nil {
 		log.WithError(err).Error("failed to create user")
 		render.Respond(w, http.StatusInternalServerError, render.Message("something bad happened creating the user"))
 		return
 	}
 
-	render.Respond(w, http.StatusOK, render.Message(user.ToMap()))
+	render.Respond(w, http.StatusOK, render.Message(user.ToReturn()))
 }
 
 func updateUser(oldUser *data.User, newUser *data.User) (*data.User, error) {
+	errs := validation.Errors{}
+
 	if newUser.Username != "" {
 		oldUser.Username = newUser.Username
 	}
@@ -68,14 +82,21 @@ func updateUser(oldUser *data.User, newUser *data.User) (*data.User, error) {
 		oldUser.Surname = newUser.Surname
 	}
 
+	if newUser.ImageURL != "" {
+		oldUser.ImageURL = newUser.ImageURL
+	}
+
 	if newUser.Email != "" {
-		if err := validation.Validate(newUser.Email, is.Email); err != nil {
-			return nil, err
+		if errs["email"] = validation.Validate(newUser.Email, is.Email); errs["email"] != nil {
+			return nil, errs.Filter()
 		}
 		oldUser.Email = newUser.Email
 	}
 
 	if newUser.Password != "" {
+		if errs["password"] = validation.Validate(&newUser.Password, validation.Required, validation.Length(6, 50)); errs["password"] != nil {
+			return nil, errs.Filter()
+		}
 		oldUser.Password = newUser.Password
 	}
 

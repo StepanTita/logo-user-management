@@ -9,10 +9,6 @@ import (
 	"net/http"
 )
 
-type PasswordData struct {
-	Password string `json:"password"`
-}
-
 type GetUserRequest struct {
 	Username string       `json:"-"`
 	Data     PasswordData `json:"data"`

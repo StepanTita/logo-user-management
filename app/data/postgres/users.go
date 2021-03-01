@@ -13,7 +13,7 @@ type Users interface {
 	Get() (*data.User, error)
 	GetUser(username string) (*data.User, error)
 	CreateUser(user data.User) error
-	UpdateUser(user data.User) error
+	UpdateUser(oldUsername string, user data.User) error
 	DeleteUser(username string) error
 }
 
@@ -54,9 +54,12 @@ func (us *users) Get() (*data.User, error) {
 		&user.Email,
 		&user.Password,
 		&user.Salt,
+		&user.ImageURL,
 	)
 	if err != nil && err != sql.ErrNoRows {
 		return nil, errors.Wrap(err, "failed to query user")
+	} else if err == sql.ErrNoRows {
+		return nil, nil
 	}
 	return &user, nil
 }
@@ -82,8 +85,8 @@ func (us *users) newUpdate() sq.UpdateBuilder {
 	return sq.Update(usersTable).RunWith(us.db).PlaceholderFormat(sq.Dollar)
 }
 
-func (us *users) UpdateUser(user data.User) error {
-	_, err := us.newUpdate().SetMap(user.ToMap()).Where(sq.Eq{"username": user.Username}).Exec()
+func (us *users) UpdateUser(oldUsername string, user data.User) error {
+	_, err := us.newUpdate().SetMap(user.ToMap()).Where(sq.Eq{"username": oldUsername}).Exec()
 	if err != nil {
 		return errors.Wrap(err, "failed to update user data")
 	}
