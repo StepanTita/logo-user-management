@@ -1,4 +1,4 @@
-# geo-provider
+# logo-user-management
 
 **REQUESTS:** <br>
 Base path: https://logo-user-management.herokuapp.com
