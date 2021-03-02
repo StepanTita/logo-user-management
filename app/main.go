@@ -3,6 +3,7 @@ package app
 import (
 	"fmt"
 	"github.com/go-chi/chi"
+	"github.com/logo-user-management/app/cors"
 	"github.com/logo-user-management/app/ctx"
 	"github.com/logo-user-management/app/data/postgres"
 	"github.com/logo-user-management/app/logging"
@@ -48,6 +49,7 @@ func (a *app) router() chi.Router {
 	router := chi.NewRouter()
 
 	router.Use(
+		cors.Middleware(),
 		logging.Middleware(a.log),
 		ctx.Middleware(
 			ctx.CtxLog(a.log),
