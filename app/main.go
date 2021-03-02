@@ -60,7 +60,7 @@ func (a *app) router() chi.Router {
 
 	router.Route("/logo/users", func(r chi.Router) {
 		r.Route(fmt.Sprintf("/{%s}", web.UsernameRequestKey), func(r chi.Router) {
-			r.Get("/auth", handlers.GetUser)
+			r.Post("/auth", handlers.GetUser)
 			r.Patch("/", handlers.UpdateUser)
 			r.Delete("/", handlers.DeleteUser)
 		})
