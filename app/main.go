@@ -61,9 +61,16 @@ func (a *app) router() chi.Router {
 	router.Route("/logo/users", func(r chi.Router) {
 		r.Route(fmt.Sprintf("/{%s}", web.UsernameRequestKey), func(r chi.Router) {
 			r.Post("/auth", handlers.GetUser)
+			r.Options("/auth", handlers.OptionsMock)
 			r.Patch("/", handlers.UpdateUser)
 			r.Delete("/", handlers.DeleteUser)
+			r.Options("/", handlers.OptionsMock)
 		})
+		r.Route(fmt.Sprintf("/uid/{%s}", web.UserIDRequestKey), func(r chi.Router) {
+			r.Post("/", handlers.GetUserByID)
+			r.Options("/", handlers.OptionsMock)
+		})
+		r.Options("/", handlers.OptionsMock)
 		r.Post("/", handlers.CreateUser)
 	})
 

@@ -12,6 +12,7 @@ type Users interface {
 	New() Users
 	Get() (*data.User, error)
 	GetUser(username string) (*data.User, error)
+	GetUserById(id int64) (*data.User, error)
 	CreateUser(user data.User) error
 	UpdateUser(oldUsername string, user data.User) error
 	DeleteUser(username string) error
@@ -66,6 +67,11 @@ func (us *users) Get() (*data.User, error) {
 
 func (us *users) GetUser(username string) (*data.User, error) {
 	us.sql = us.sql.Where(sq.Eq{"username": username})
+	return us.Get()
+}
+
+func (us *users) GetUserById(id int64) (*data.User, error) {
+	us.sql = us.sql.Where(sq.Eq{"id": id})
 	return us.Get()
 }
 

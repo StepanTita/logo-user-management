@@ -27,6 +27,7 @@ func (u User) ToMap() map[string]interface{} {
 
 func (u User) ToReturn() map[string]interface{} {
 	result := map[string]interface{}{
+		"user_id":   u.ID,
 		"username":  u.Username,
 		"name":      u.Name,
 		"surname":   u.Surname,
