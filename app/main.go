@@ -67,7 +67,7 @@ func (a *app) router() chi.Router {
 			r.Options("/", handlers.OptionsMock)
 		})
 		r.Route(fmt.Sprintf("/uid/{%s}", web.UserIDRequestKey), func(r chi.Router) {
-			r.Post("/", handlers.GetUserByID)
+			r.Get("/", handlers.GetUserByID)
 			r.Options("/", handlers.OptionsMock)
 		})
 		r.Options("/", handlers.OptionsMock)

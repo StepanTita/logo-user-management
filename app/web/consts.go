@@ -2,5 +2,5 @@ package web
 
 const (
 	UsernameRequestKey = "username"
-	UserIDRequestKey
+	UserIDRequestKey   = "user-id"
 )
