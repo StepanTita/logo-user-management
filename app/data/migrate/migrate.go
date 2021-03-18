@@ -12,10 +12,13 @@ const (
 	Down = "down"
 )
 
+// package for database migration
+// stores migrations to binaries
 var migrations = &migrate.PackrMigrationSource{
 	Box: assets.Migrations,
 }
 
+// Migrates database up
 func MigrateUp(db *sql.DB) (int, error) {
 	applied, err := migrate.Exec(db, "postgres", migrations, migrate.Up)
 
@@ -23,10 +26,10 @@ func MigrateUp(db *sql.DB) (int, error) {
 		return 0, errors.Wrap(err, "failed to apply migrations")
 	}
 
-
 	return applied, nil
 }
 
+// Migrates database down
 func MigrateDown(db *sql.DB) (int, error) {
 	applied, err := migrate.Exec(db, "postgres", migrations, migrate.Down)
 	if err != nil {

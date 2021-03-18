@@ -25,6 +25,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// encrypt users password
 	request.Data.Password, err = utils.HashAndSalt(request.Data.Password)
 	if err != nil {
 		log.WithError(err).Error("failed to hash user password")
@@ -32,6 +33,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// check if we have such user already
 	user, err := ctx.Users(r).GetUser(request.Data.Username)
 	if err != nil {
 		log.WithError(err).Error("failed to get user")
@@ -51,6 +53,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// check that user is created successfully
 	user, err = ctx.Users(r).GetUser(request.Data.Username)
 	if err != nil {
 		log.WithError(err).Error("failed to find user")

@@ -24,6 +24,7 @@ type databaser struct {
 	sync.Once
 }
 
+// NewDatabaser configuration initializer
 func NewDatabaser(url, method string, log *logrus.Logger) Databaser {
 	return &databaser{
 		url:    url,
@@ -32,6 +33,7 @@ func NewDatabaser(url, method string, log *logrus.Logger) Databaser {
 	}
 }
 
+// DB reads database when called once
 func (d *databaser) DB() *sql.DB {
 	d.Once.Do(func() {
 		var err error

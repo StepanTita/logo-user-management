@@ -20,12 +20,14 @@ type logger struct {
 	sync.Once
 }
 
+// NewLogger configuration initializer
 func NewLogger(level string) Logger {
 	return &logger{
 		level: level,
 	}
 }
 
+// Logging initializes logrus when called once
 func (l *logger) Logging() *logrus.Logger {
 	l.Once.Do(func() {
 		level, err := logrus.ParseLevel(l.level)

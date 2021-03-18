@@ -8,6 +8,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+// Users interface, which defines the main functions to query the underlying postgres database
 type Users interface {
 	New() Users
 	Get() (*data.User, error)

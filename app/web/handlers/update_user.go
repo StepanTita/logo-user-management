@@ -67,6 +67,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	render.Respond(w, http.StatusOK, render.Message(user.ToReturn()))
 }
 
+// basic update validation function
 func updateUser(oldUser *data.User, newUser *data.User) (*data.User, error) {
 	errs := validation.Errors{}
 

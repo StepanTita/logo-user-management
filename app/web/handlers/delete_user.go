@@ -37,6 +37,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// check the password, so that we are allowed to delete this user
 	if err := utils.EqualPasswords(user.Password, request.Data.Password); err != nil {
 		log.WithError(err).Debug("wrong password")
 		render.Respond(w, http.StatusForbidden, render.Message("wrong password"))

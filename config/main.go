@@ -15,6 +15,7 @@ type Config interface {
 	Databaser
 }
 
+// main system configuration
 type config struct {
 	Addr     string `yaml:"addr"`
 	Log      string `yaml:"log"`
@@ -27,6 +28,7 @@ type config struct {
 	Databaser
 }
 
+// initializes New system configuration object
 func New(path string) Config {
 	cfg := config{}
 

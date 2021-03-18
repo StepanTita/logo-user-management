@@ -14,6 +14,9 @@ const (
 	ctxUsers  = "ctxUsers"
 )
 
+// context getters and setters
+// allows to set and retrieve context objects
+
 func CtxConfig(cfg config.Config) func(context.Context) context.Context {
 	return func(ctx context.Context) context.Context {
 		return context.WithValue(ctx, ctxConfig, cfg)

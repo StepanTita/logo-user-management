@@ -33,6 +33,7 @@ func New(cfg config.Config) App {
 
 func (a *app) Run() error {
 	defer func() {
+		// recover if something has broken
 		if rvr := recover(); rvr != nil {
 			a.log.Error("app panicked\n", rvr)
 		}
@@ -58,6 +59,7 @@ func (a *app) router() chi.Router {
 		),
 	)
 
+	// routes of the service
 	router.Route("/logo/users", func(r chi.Router) {
 		r.Route(fmt.Sprintf("/{%s}", web.UsernameRequestKey), func(r chi.Router) {
 			r.Post("/auth", handlers.GetUser)
